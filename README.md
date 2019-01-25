@@ -1,9 +1,8 @@
 # Simple Tetris Game
-### by Orb_H
 
-### A quite well working Tetris implementation.
+##### A quite well working Tetris.
 
-## Features
+### Features
    1. SRS
    2. T-spin bonus
    3. Back to back score bonus
