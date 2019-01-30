@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Arrays;
@@ -15,12 +16,10 @@ import java.util.TimerTask;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 
 public class Board extends JPanel {
 
-	char[][] board;
+	byte[][] board;
 	JLabel h;
 	JLabel[] n;
 	JLabel s;
@@ -45,6 +44,7 @@ public class Board extends JPanel {
 
 	int score = 0;
 	int combo = 0;
+	int move = 0;
 
 	int framecount = 0;
 
@@ -98,7 +98,7 @@ public class Board extends JPanel {
 			add(n[i]);
 		}
 
-		board = new char[20][10];
+		board = new byte[20][10];
 		display = new JLabel[20][10];
 
 		for (int i = 0; i < 10; i++) {
@@ -108,7 +108,7 @@ public class Board extends JPanel {
 				display[j][i].setOpaque(true);
 				display[j][i].setBackground(Color.BLACK);
 				display[j][i].setLocation(60 + 20 * i, 20 * j);
-				display[j][i].setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+				display[j][i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 				display[j][i].setSize(cell);
 				display[j][i].setPreferredSize(cell);
 			}
@@ -195,7 +195,9 @@ public class Board extends JPanel {
 	}
 
 	public void frame() {
-		if (framecount == 0)
+		if (land && framecount % (1000 / msPerFrame) == 0) {
+			land();
+		} else if (framecount % framePerTick == 0)
 			tick();
 		else if (isSoft && framecount % 5 == 0) {
 			if (!checkLand()) {
@@ -206,33 +208,41 @@ public class Board extends JPanel {
 				framecount = 0;
 			}
 		}
-		framecount = (framecount + 1) % framePerTick;
+		framecount = (framecount + 1) % 10000;
 	}
 
 	public boolean checkLand() {
-		boolean land = false;
+		boolean landtemp = false;
 		for (int i = 0; i < current.s[0].length; i++) {
 			for (int j = 0; j < current.s[0][0].length; j++) {
-				if (land)
+				if (landtemp)
 					break;
 				if (current.s[current.r][i][j] != 0) {
 					if (current.l.y + i == 19) {
-						land = true;
+						landtemp = true;
 						break;
 					}
 					try {
 						if (board[current.l.y + i + 1][current.l.x + j] != 0) {
-							land = true;
+							landtemp = true;
 							break;
 						}
 					} catch (Exception e) {
 					}
 				}
 			}
-			if (land)
+			if (landtemp)
 				break;
 		}
-		return land;
+		return (land = landtemp);
+	}
+
+	public void land() {
+		for (int i = 0; i < current.s[0].length; i++)
+			for (int j = 0; j < current.s[0][0].length; j++)
+				if (current.s[current.r][i][j] != 0)
+					board[current.l.y + i][current.l.x + j] += current.s[current.r][i][j];
+		nextBlock();
 	}
 
 	public void tick() {
@@ -244,12 +254,6 @@ public class Board extends JPanel {
 				updateScore();
 			}
 			isTspin = false;
-		} else {
-			for (int i = 0; i < current.s[0].length; i++)
-				for (int j = 0; j < current.s[0][0].length; j++)
-					if (current.s[current.r][i][j] != 0)
-						board[current.l.y + i][current.l.x + j] += current.s[current.r][i][j];
-			nextBlock();
 		}
 		render();
 	}
@@ -262,6 +266,7 @@ public class Board extends JPanel {
 			System.out.println("Game Over");// FIXME
 			removeKeyListener(l);
 		}
+		move++;
 
 		current = next.poll().clone();
 		if (next.size() < 7)
@@ -290,6 +295,7 @@ public class Board extends JPanel {
 				count++;
 			} else if (count > 0) {
 				board[i + count] = Arrays.copyOf(board[i], 10);
+				board[i] = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			}
 		}
 		switch (count) {
@@ -365,12 +371,13 @@ public class Board extends JPanel {
 			}
 		}
 		updateScore();
-		if (count > 0)
+		if (count > 0) {
 			combo++;
-		else
+			Toolkit.getDefaultToolkit().beep();
+		} else
 			combo = 0;
 		while (count > 0) {
-			board[count] = new char[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+			board[count] = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			count--;
 		}
 	}
@@ -393,14 +400,7 @@ public class Board extends JPanel {
 		}
 		updateHold();
 		render();
-		t.cancel();
-		t = new Timer();
-		framecount = 0;
-		t.schedule(new TimerTask() {
-			public void run() {
-				frame();
-			}
-		}, msPerFrame, msPerFrame);
+		framecount = 1;
 		canHold = false;
 	}
 
@@ -507,6 +507,11 @@ public class Board extends JPanel {
 				}
 			}
 			current.r = newr;
+			if (land) {
+				checkLand();
+				if (!land)
+					framecount = 1;
+			}
 			render();
 		}
 	}
@@ -560,6 +565,11 @@ public class Board extends JPanel {
 				}
 			}
 			current.r = newr;
+			if (land) {
+				checkLand();
+				if (!land)
+					framecount = 1;
+			}
 			render();
 		}
 	}
@@ -592,22 +602,12 @@ public class Board extends JPanel {
 			y++;
 		}
 		y--;
-		for (int i = 0; i < current.s[0].length; i++)
-			for (int j = 0; j < current.s[0][0].length; j++)
-				if (current.s[current.r][i][j] != 0)
-					board[current.l.y + i + y][current.l.x + j] += current.s[current.r][i][j];
-		nextBlock();
+		current.l.translate(0, y);
+		land();
 		score += 2 * y;
 		render();
 
-		t.cancel();
-		t = new Timer();
-		framecount = 0;
-		t.schedule(new TimerTask() {
-			public void run() {
-				frame();
-			}
-		}, msPerFrame, msPerFrame);
+		framecount = 1;
 	}
 
 	public List<Block> getShuffled() {
