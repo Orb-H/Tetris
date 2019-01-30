@@ -14,4 +14,4 @@
    - Z, X: CCW rotation, CW rotation each
    - C: hold
    - Space: hard drop
-   - Same with Puyo Puyo® Tetris™ control.
+   - Same with [Puyo Puyo Tetris](https://store.steampowered.com/app/546050/Puyo_PuyoTetris/) control.
