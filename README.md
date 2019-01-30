@@ -15,4 +15,4 @@
    - <kbd>X</kbd> : CW rotation
    - <kbd>C</kbd> : hold
    - <kbd>Space</kbd> : hard drop
-   - Same with [Puyo Puyo Tetris](https://store.steampowered.com/app/546050/Puyo_PuyoTetris/) control.
+   - Same with Puyo Puyo Tetris control.
