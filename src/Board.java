@@ -16,20 +16,22 @@ import java.util.TimerTask;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class Board extends JPanel {
 
 	byte[][] board;
-	JLabel h;
-	JLabel[] n;
-	JLabel s;
-	JLabel b;
+	JLabel h;// hold
+	JLabel[] n;// next
+	JLabel s;// score
+	JLabel b;// board border
+	JLabel c;// cover
 	JLabel[][] display;
 	JLabel full;
 	final Dimension size = new Dimension(320, 400);
 	final Dimension cell = new Dimension(20, 20);
 	final Dimension nextcell = new Dimension(60, 50);
-	final Dimension boardcell = new Dimension(202, 402);
+	final Dimension boardcell = new Dimension(202, 400);
 
 	LinkedList<Block> next = new LinkedList<>();
 	Block current;
@@ -47,6 +49,7 @@ public class Board extends JPanel {
 	int move = 0;
 
 	int framecount = 0;
+	boolean pause = false;
 
 	Timer t;
 	TimerTask tt;
@@ -60,7 +63,19 @@ public class Board extends JPanel {
 		setLayout(new BorderLayout());
 		setBackground(Color.BLACK);
 
-		h = new JLabel();
+		c = new JLabel("Paused", SwingConstants.CENTER);
+		c.setOpaque(true);
+		c.setLocation(59, 0);
+		c.setSize(boardcell);
+		c.setPreferredSize(boardcell);
+		c.setBackground(Color.DARK_GRAY);
+		c.setFont(new Font("NanumBarunGothic", Font.PLAIN, 25));
+		c.setForeground(Color.WHITE);
+		c.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		c.setVisible(false);
+		add(c);
+
+		h = new JLabel("<html>Hold<br></html>", SwingConstants.CENTER);
 		h.setOpaque(true);
 		h.setLocation(0, 0);
 		h.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
@@ -69,10 +84,9 @@ public class Board extends JPanel {
 		h.setBackground(Color.BLACK);
 		h.setForeground(Color.WHITE);
 		h.setFont(new Font("NanumBarunGothic", Font.PLAIN, 20));
-		h.setText("<html>Hold<br>_</html>");
 		add(h);
 
-		s = new JLabel();
+		s = new JLabel("", SwingConstants.CENTER);
 		s.setOpaque(true);
 		s.setLocation(260, 350);
 		s.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
@@ -85,7 +99,7 @@ public class Board extends JPanel {
 
 		n = new JLabel[5];
 		for (int i = 0; i < 5; i++) {
-			n[i] = new JLabel();
+			n[i] = new JLabel("", SwingConstants.CENTER);
 			n[i].setOpaque(true);
 			n[i].setLocation(260, 50 * i);
 			n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
@@ -116,7 +130,7 @@ public class Board extends JPanel {
 
 		b = new JLabel();
 		b.setOpaque(true);
-		b.setLocation(59, -1);
+		b.setLocation(59, 0);
 		b.setSize(boardcell);
 		b.setPreferredSize(boardcell);
 		b.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
@@ -138,28 +152,33 @@ public class Board extends JPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				switch (e.getKeyCode()) {
-				case KeyEvent.VK_LEFT:
-					moveLeft();
-					break;
-				case KeyEvent.VK_RIGHT:
-					moveRight();
-					break;
-				case KeyEvent.VK_Z:
-					rotateLeft();
-					break;
-				case KeyEvent.VK_X:
-					rotateRight();
-					break;
-				case KeyEvent.VK_C:
-					hold();
-					break;
-				case KeyEvent.VK_SPACE:
-					harddrop();
-					break;
-				case KeyEvent.VK_DOWN:
-					isSoft = true;
-					break;
+				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					pause();
+				}
+				if (!pause) {
+					switch (e.getKeyCode()) {
+					case KeyEvent.VK_LEFT:
+						moveLeft();
+						break;
+					case KeyEvent.VK_RIGHT:
+						moveRight();
+						break;
+					case KeyEvent.VK_Z:
+						rotateLeft();
+						break;
+					case KeyEvent.VK_X:
+						rotateRight();
+						break;
+					case KeyEvent.VK_C:
+						hold();
+						break;
+					case KeyEvent.VK_SPACE:
+						harddrop();
+						break;
+					case KeyEvent.VK_DOWN:
+						isSoft = true;
+						break;
+					}
 				}
 			}
 
@@ -192,6 +211,22 @@ public class Board extends JPanel {
 				frame();
 			}
 		}, 0, msPerFrame);
+	}
+
+	public void pause() {
+		if (pause) {
+			t = new Timer();
+			t.schedule(tt = new TimerTask() {
+				public void run() {
+					frame();
+				}
+			}, 0, msPerFrame);
+			c.setVisible(false);
+		} else {
+			t.cancel();
+			c.setVisible(true);
+		}
+		pause = !pause;
 	}
 
 	public void frame() {
