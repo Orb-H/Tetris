@@ -1,10 +1,17 @@
 # Simple Tetris Game
 
-##### A quite well working Tetris.
+#### A quite well working Tetris.
 
-### Features
+## Features
    1. SRS
    2. T-spin bonus
    3. Back to back score bonus
-   4. No pause. Restart program to play another game.
-   5. (Perhaps) working on AI with genetic algorithm
+   4. (Perhaps) working on AI with genetic algorithm
+
+## How to play
+   - Left arrow, right arrow: move block left and right
+   - Down arrow: soft drop
+   - Z, X: CCW rotation, CW rotation each
+   - C: hold
+   - Space: hard drop
+   - Same with Puyo Puyo® Tetris™ control.
