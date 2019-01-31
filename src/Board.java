@@ -38,6 +38,8 @@ public class Board extends JPanel {
 	Block hold = null;
 	boolean canHold = true;
 
+	String[] toStart = { "Press", "Enter", "to", "start", "game" };
+
 	boolean isSoft = false;
 	boolean land = false;
 	boolean isTspin = false;
@@ -49,6 +51,7 @@ public class Board extends JPanel {
 	int move = 0;
 
 	int framecount = 0;
+	boolean start = false;
 	boolean pause = false;
 
 	Timer t;
@@ -99,7 +102,7 @@ public class Board extends JPanel {
 
 		n = new JLabel[5];
 		for (int i = 0; i < 5; i++) {
-			n[i] = new JLabel("", SwingConstants.CENTER);
+			n[i] = new JLabel(toStart[i], SwingConstants.CENTER);
 			n[i].setOpaque(true);
 			n[i].setLocation(260, 50 * i);
 			n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
@@ -152,32 +155,38 @@ public class Board extends JPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-					pause();
-				}
-				if (!pause) {
-					switch (e.getKeyCode()) {
-					case KeyEvent.VK_LEFT:
-						moveLeft();
-						break;
-					case KeyEvent.VK_RIGHT:
-						moveRight();
-						break;
-					case KeyEvent.VK_Z:
-						rotateLeft();
-						break;
-					case KeyEvent.VK_X:
-						rotateRight();
-						break;
-					case KeyEvent.VK_C:
-						hold();
-						break;
-					case KeyEvent.VK_SPACE:
-						harddrop();
-						break;
-					case KeyEvent.VK_DOWN:
-						isSoft = true;
-						break;
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !start) {
+					start();
+					start = true;
+				} else if (start) {
+					if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+						pause();
+					}
+					if (!pause) {
+						switch (e.getKeyCode()) {
+						case KeyEvent.VK_LEFT:
+							moveLeft();
+							break;
+						case KeyEvent.VK_RIGHT:
+							moveRight();
+							break;
+						case KeyEvent.VK_Z:
+							rotateLeft();
+							break;
+						case KeyEvent.VK_X:
+						case KeyEvent.VK_UP:
+							rotateRight();
+							break;
+						case KeyEvent.VK_C:
+							hold();
+							break;
+						case KeyEvent.VK_SPACE:
+							harddrop();
+							break;
+						case KeyEvent.VK_DOWN:
+							isSoft = true;
+							break;
+						}
 					}
 				}
 			}
@@ -196,8 +205,6 @@ public class Board extends JPanel {
 			}
 
 		});
-
-		start();
 	}
 
 	public void start() {
