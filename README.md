@@ -15,4 +15,5 @@
    - <kbd>X</kbd> : CW rotation
    - <kbd>C</kbd> : hold
    - <kbd>Space</kbd> : hard drop
+   - <kbd>Esc</kbd> : Pause/Resume
    - Same with Puyo Puyo Tetris control.
