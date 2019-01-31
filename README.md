@@ -8,13 +8,14 @@
    3. (Perhaps) working on AI with genetic algorithm **on AI branch**
 
 ## How to play
-   - <kbd>←</kbd> : move block to the left
-   - <kbd>→</kbd> : move block to the right
+   - <kbd>←</kbd> : Move block to the left
+   - <kbd>→</kbd> : Move block to the right
    - <kbd>↑</kbd> : CW rotation
-   - <kbd>↓</kbd> : soft drop
+   - <kbd>↓</kbd> : Soft drop
    - <kbd>Z</kbd> : CCW rotation
    - <kbd>X</kbd> : CW rotation
-   - <kbd>C</kbd> : hold
-   - <kbd>Space</kbd> : hard drop
+   - <kbd>C</kbd> : Hold
+   - <kbd>Space</kbd> : Hard drop
    - <kbd>Esc</kbd> : Pause/Resume
+   - <kbd>Enter</kbd> : Start
    - Same with Puyo Puyo Tetris control.
