@@ -10,6 +10,7 @@
 ## How to play
    - <kbd>←</kbd> : move block to the left
    - <kbd>→</kbd> : move block to the right
+   - <kbd>↑</kbd> : CW rotation
    - <kbd>↓</kbd> : soft drop
    - <kbd>Z</kbd> : CCW rotation
    - <kbd>X</kbd> : CW rotation
