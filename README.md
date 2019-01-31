@@ -5,7 +5,7 @@
 ## Features
    1. SRS (Super Rotation System)
    2. Modern scoring system (T-spin, back to back)
-   3. (Perhaps) working on AI with genetic algorithm
+   3. (Perhaps) working on AI with genetic algorithm **on AI branch**
 
 ## How to play
    - <kbd>←</kbd> : move block to the left
