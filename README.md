@@ -18,4 +18,4 @@
    - <kbd>Space</kbd> : Hard drop
    - <kbd>Esc</kbd> : Pause/Resume
    - <kbd>Enter</kbd> : Start
-   - Same with Puyo Puyo Tetris control.
+   - <kbd>S</kbd> : Toggle shadow
