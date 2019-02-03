@@ -53,6 +53,7 @@ public class Board extends JPanel {
 	int framecount = 0;
 	boolean start = false;
 	boolean pause = false;
+	boolean shadow = false;
 
 	Timer t;
 	TimerTask tt;
@@ -186,6 +187,9 @@ public class Board extends JPanel {
 						case KeyEvent.VK_DOWN:
 							isSoft = true;
 							break;
+						case KeyEvent.VK_S:
+							shadow = !shadow;
+							break;
 						}
 					}
 				}
@@ -242,7 +246,7 @@ public class Board extends JPanel {
 		} else if (framecount % framePerTick == 0)
 			tick();
 		else if (isSoft && framecount % 5 == 0) {
-			if (!checkLand()) {
+			if (!(land = checkLand())) {
 				current.l.translate(0, 1);
 				score += 1;
 				updateScore();
@@ -265,7 +269,8 @@ public class Board extends JPanel {
 						break;
 					}
 					try {
-						if (board[current.l.y + i + 1][current.l.x + j] != 0) {
+						if (board[current.l.y + i + 1][current.l.x + j] != 0
+								&& board[current.l.y + i + 1][current.l.x + j] < 8) {
 							landtemp = true;
 							break;
 						}
@@ -276,7 +281,33 @@ public class Board extends JPanel {
 			if (landtemp)
 				break;
 		}
-		return (land = landtemp);
+		return landtemp;
+	}
+
+	public boolean checkLand(Block b, int x, int y, int r) {
+		boolean landtemp = false;
+		for (int i = 0; i < b.s[0].length; i++) {
+			for (int j = 0; j < b.s[0][0].length; j++) {
+				if (landtemp)
+					break;
+				if (b.s[r][i][j] != 0) {
+					if (y + i == 19) {
+						landtemp = true;
+						break;
+					}
+					try {
+						if (board[y + i + 1][x + j] != 0 && board[y + i + 1][x + j] < 8) {
+							landtemp = true;
+							break;
+						}
+					} catch (Exception e) {
+					}
+				}
+			}
+			if (landtemp)
+				break;
+		}
+		return landtemp;
 	}
 
 	public void land() {
@@ -288,7 +319,7 @@ public class Board extends JPanel {
 	}
 
 	public void tick() {
-		boolean land = checkLand();
+		land = checkLand();
 		if (!land) {
 			current.l.translate(0, 1);
 			if (isSoft) {
@@ -550,7 +581,7 @@ public class Board extends JPanel {
 			}
 			current.r = newr;
 			if (land) {
-				checkLand();
+				land = checkLand();
 				if (!land)
 					framecount = 1;
 			}
@@ -608,7 +639,7 @@ public class Board extends JPanel {
 			}
 			current.r = newr;
 			if (land) {
-				checkLand();
+				land = checkLand();
 				if (!land)
 					framecount = 1;
 			}
@@ -660,10 +691,28 @@ public class Board extends JPanel {
 	public synchronized void render() {
 		int x = current.l.x;
 		int y = current.l.y;
+		int sy = y;
+		if (shadow) {
+			for (; sy < 20; sy++) {
+				if (checkLand(current, x, sy, current.r)) {
+					for (int i = 0; i < current.s[0].length; i++) {
+						for (int j = 0; j < current.s[0][0].length; j++) {
+							try {
+								if (current.s[current.r][i][j] != 0)
+									board[sy + i][x + j] += current.s[current.r][i][j] + 8;
+							} catch (Exception e) {
+							}
+						}
+					}
+					break;
+				}
+			}
+		}
 		for (int i = 0; i < current.s[0].length; i++) {
 			for (int j = 0; j < current.s[0][0].length; j++) {
 				try {
-					board[y + i][x + j] += current.s[current.r][i][j];
+					if (current.s[current.r][i][j] != 0)
+						board[y + i][x + j] = current.s[current.r][i][j];
 				} catch (Exception e) {
 				}
 			}
@@ -695,6 +744,27 @@ public class Board extends JPanel {
 				case 7:
 					display[j][i].setBackground(Color.RED);
 					break;
+				case 9:
+					display[j][i].setBackground(Color.CYAN.darker());
+					break;
+				case 10:
+					display[j][i].setBackground(Color.BLUE.darker());
+					break;
+				case 11:
+					display[j][i].setBackground(Color.ORANGE.darker());
+					break;
+				case 12:
+					display[j][i].setBackground(Color.YELLOW.darker());
+					break;
+				case 13:
+					display[j][i].setBackground(Color.GREEN.darker());
+					break;
+				case 14:
+					display[j][i].setBackground(Color.MAGENTA.darker().darker());
+					break;
+				case 15:
+					display[j][i].setBackground(Color.RED.darker());
+					break;
 				}
 			}
 		}
@@ -703,8 +773,20 @@ public class Board extends JPanel {
 		for (int i = 0; i < current.s[0].length; i++) {
 			for (int j = 0; j < current.s[0][0].length; j++) {
 				try {
-					board[y + i][x + j] -= current.s[current.r][i][j];
+					if (current.s[current.r][i][j] != 0)
+						board[y + i][x + j] = 0;
 				} catch (Exception e) {
+				}
+			}
+		}
+		if (shadow) {
+			for (int i = 0; i < current.s[0].length; i++) {
+				for (int j = 0; j < current.s[0][0].length; j++) {
+					try {
+						if (current.s[current.r][i][j] != 0)
+							board[sy + i][x + j] = 0;
+					} catch (Exception e) {
+					}
 				}
 			}
 		}
