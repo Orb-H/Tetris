@@ -61,6 +61,9 @@ public class Board extends JPanel {
 	public final int msPerFrame = 20;
 	public final int framePerTick = 25;
 
+	final Color[] colors = new Color[] { Color.BLACK, Color.WHITE, Color.YELLOW.brighter().brighter(),
+			Color.YELLOW.brighter(), Color.YELLOW, Color.YELLOW.darker() };
+
 	KeyListener l;
 
 	public Board() {
@@ -721,28 +724,14 @@ public class Board extends JPanel {
 			for (int j = 0; j < 20; j++) {
 				switch (board[j][i]) {
 				case 0:
-					display[j][i].setBackground(Color.BLACK);
-					break;
 				case 1:
-					display[j][i].setBackground(Color.CYAN);
-					break;
 				case 2:
-					display[j][i].setBackground(Color.BLUE);
-					break;
 				case 3:
-					display[j][i].setBackground(Color.ORANGE);
-					break;
 				case 4:
-					display[j][i].setBackground(Color.YELLOW);
-					break;
 				case 5:
-					display[j][i].setBackground(Color.GREEN);
-					break;
 				case 6:
-					display[j][i].setBackground(Color.MAGENTA.darker());
-					break;
 				case 7:
-					display[j][i].setBackground(Color.RED);
+					display[j][i].setBackground(colors[board[j][i]]);
 					break;
 				case 9:
 					display[j][i].setBackground(Color.CYAN.darker());
