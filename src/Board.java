@@ -62,7 +62,8 @@ public class Board extends JPanel {
 	public final int framePerTick = 25;
 
 	final Color[] colors = new Color[] { Color.BLACK, Color.WHITE, Color.YELLOW.brighter().brighter(),
-			Color.YELLOW.brighter(), Color.YELLOW, Color.YELLOW.darker() };
+			Color.YELLOW.brighter(), Color.YELLOW, Color.YELLOW.darker(), Color.ORANGE.brighter().brighter(),
+			Color.ORANGE.brighter(), Color.ORANGE, Color.ORANGE.darker() };
 
 	KeyListener l;
 
