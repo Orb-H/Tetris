@@ -4,14 +4,16 @@ import javax.swing.SwingUtilities;
 public class Main extends JFrame {
 
 	public Main() {
-		Board b = new Board();
-		setContentPane(b);
+		AI ai = new AI(AI.AIMode.INFINITY, 100);
+		setContentPane(ai.b);
 		setVisible(true);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocation(700, 300);
 		pack();
-		b.requestFocus();
+		ai.b.requestFocus();
+
+		ai.start();
 	}
 
 	public static void main(String[] args) {
