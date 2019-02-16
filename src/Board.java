@@ -48,7 +48,8 @@ public class Board extends JPanel {
 
 	int score = 0;
 	int combo = 0;
-	int move = 0;
+	int blockcount = 0;
+	int linecount = 0;
 
 	int framecount = 0;
 	boolean start = false;
@@ -339,7 +340,7 @@ public class Board extends JPanel {
 			System.out.println("Game Over");// FIXME
 			removeKeyListener(l);
 		}
-		move++;
+		blockcount++;
 
 		current = next.poll().clone();
 		if (next.size() < 7)
@@ -416,6 +417,7 @@ public class Board extends JPanel {
 			btb = true;
 			break;
 		}
+		linecount += count;
 
 		int sum = 0;
 		for (int i = 0; i < 20; i++) {
