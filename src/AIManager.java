@@ -6,5 +6,11 @@ public class AIManager {
 
 	double mutationRate = 0.05;
 	double mutationStep = 0.2;
+	
+	void init() {
+		
+	}
+	
+	
 
 }
