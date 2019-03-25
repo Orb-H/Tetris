@@ -20,47 +20,47 @@ import javax.swing.SwingConstants;
 
 public class Board extends JPanel {
 
-	byte[][] board;
+	byte[][] board;// board array
 	JLabel h;// hold
 	JLabel[] n;// next
 	JLabel s;// score
 	JLabel b;// board border
 	JLabel c;// cover
-	JLabel[][] display;
+	JLabel[][] display;// Display cell
 	JLabel full;
-	final Dimension size = new Dimension(320, 400);
-	final Dimension cell = new Dimension(20, 20);
-	final Dimension nextcell = new Dimension(60, 50);
-	final Dimension boardcell = new Dimension(202, 400);
+	final Dimension size = new Dimension(320, 400);// size of window
+	final Dimension cell = new Dimension(20, 20);// size of cell
+	final Dimension nextcell = new Dimension(60, 50);// size of next block holder
+	final Dimension boardcell = new Dimension(202, 400);// size of board
 
-	LinkedList<Block> next = new LinkedList<>();
-	Block current;
-	Block hold = null;
-	boolean canHold = true;
+	LinkedList<Block> next = new LinkedList<>();// next block list
+	Block current;// current dropping block
+	Block hold = null;// hold block
+	boolean canHold = true;// can player hold
 
 	String[] toStart = { "Press", "Enter", "to", "start", "game" };
 
-	boolean isSoft = false;
-	boolean land = false;
-	boolean isTspin = false;
-	boolean isTspinMini = false;
-	boolean btb = false;
+	boolean isSoft = false;// is player doing soft-drop
+	boolean land = false;// is block landed
+	boolean isTspin = false;// is T-spin
+	boolean isTspinMini = false;// is T-Spin mini
+	boolean btb = false;// is back-to-back
 
-	int score = 0;
-	int combo = 0;
-	int blockcount = 0;
-	int linecount = 0;
+	int score = 0;// score
+	int combo = 0;// combo
+	int blockcount = 0;// blocks placed
+	int linecount = 0;// lines cleared
 
-	int framecount = 0;
-	boolean start = false;
-	boolean pause = false;
-	boolean shadow = false;
+	int framecount = 0;// counter for frame
+	boolean start = false;// is playing
+	boolean pause = false;// is paused
+	boolean shadow = false;// is shadow displaying
 
 	Timer t;
 	TimerTask tt;
 
-	public final int msPerFrame = 20;
-	public final int framePerTick = 25;
+	public final int msPerFrame = 20;// milliseconds per frame
+	public final int framePerTick = 25;// frames per tick
 
 	KeyListener l;
 
@@ -212,6 +212,7 @@ public class Board extends JPanel {
 		});
 	}
 
+	// game start
 	public void start() {
 		next.addAll(getShuffled());
 		next.addAll(getShuffled());
@@ -225,6 +226,7 @@ public class Board extends JPanel {
 		}, 0, msPerFrame);
 	}
 
+	// game pause
 	public void pause() {
 		if (pause) {
 			t = new Timer();
@@ -241,6 +243,7 @@ public class Board extends JPanel {
 		pause = !pause;
 	}
 
+	// invoked every frame
 	public void frame() {
 		if (land && framecount % (1000 / msPerFrame) == 0) {
 			land();
@@ -258,6 +261,7 @@ public class Board extends JPanel {
 		framecount = (framecount + 1) % 10000;
 	}
 
+	// check if block is landed
 	public boolean checkLand() {
 		boolean landtemp = false;
 		for (int i = 0; i < current.s[0].length; i++) {
@@ -285,6 +289,7 @@ public class Board extends JPanel {
 		return landtemp;
 	}
 
+	// check if block b is at location (x, y) and rotation r
 	public boolean checkLand(Block b, int x, int y, int r) {
 		boolean landtemp = false;
 		for (int i = 0; i < b.s[0].length; i++) {
@@ -311,6 +316,7 @@ public class Board extends JPanel {
 		return landtemp;
 	}
 
+	// set block as landed and call next block
 	public void land() {
 		for (int i = 0; i < current.s[0].length; i++)
 			for (int j = 0; j < current.s[0][0].length; j++)
@@ -319,6 +325,7 @@ public class Board extends JPanel {
 		nextBlock();
 	}
 
+	// invoked every tick
 	public void tick() {
 		land = checkLand();
 		if (!land) {
@@ -332,6 +339,7 @@ public class Board extends JPanel {
 		render();
 	}
 
+	// grab next block and fall
 	public void nextBlock() {
 		checkLine();
 		canHold = true;
@@ -358,6 +366,7 @@ public class Board extends JPanel {
 		}
 	}
 
+	// check if line clear exists
 	public void checkLine() {
 		int count = 0;
 		for (int i = 19; i >= 0; i--) {
@@ -479,6 +488,7 @@ public class Board extends JPanel {
 		canHold = false;
 	}
 
+	// <-
 	public void moveLeft() {
 		boolean available = true;
 		for (int i = 0; i < current.s[0].length; i++) {
@@ -506,6 +516,7 @@ public class Board extends JPanel {
 		}
 	}
 
+	// ->
 	public void moveRight() {
 		boolean available = true;
 		for (int i = 0; i < current.s[0].length; i++) {
@@ -685,6 +696,7 @@ public class Board extends JPanel {
 		framecount = 1;
 	}
 
+	// get one bag and shuffle
 	public List<Block> getShuffled() {
 		Collections.shuffle(Block.set);
 		return Block.set;

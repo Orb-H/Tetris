@@ -4,6 +4,7 @@ import java.util.List;
 
 public class Block {
 
+	// Points
 	public static final Point x0y0 = new Point(0, 0);
 	public static final Point x1y0 = new Point(1, 0);
 	public static final Point x_1y0 = new Point(-1, 0);
@@ -24,12 +25,14 @@ public class Block {
 	public static final Point x2y_1 = new Point(2, -1);
 	public static final Point x_2y_1 = new Point(-2, -1);
 
+	// Points for checking wall kicks
 	public static final Point[][] DEFAULT_WALL = new Point[][] { { x0y0, x_1y0, x_1y_1, x0y2, x_1y2 },
 			{ x0y0, x1y0, x1y1, x0y_2, x1y_2 }, { x0y0, x1y0, x1y_1, x0y2, x1y2 },
 			{ x0y0, x_1y0, x_1y1, x0y_2, x_1y_2 }, { x0y0, x1y0, x1y_1, x0y2, x1y2 },
 			{ x0y0, x1y0, x1y1, x0y_2, x1y_2 }, { x0y0, x_1y0, x_1y_1, x0y2, x_1y2 },
 			{ x0y0, x_1y0, x_1y1, x0y_2, x_1y_2 } };
 
+	// I
 	public static final Block I = new Block((byte) 'I', new Point(3, -1),
 			new byte[][][] { { { 0, 0, 0, 0 }, { 1, 1, 1, 1 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
 					{ { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 1, 0 } },
@@ -39,50 +42,47 @@ public class Block {
 					{ x0y0, x2y0, x_1y0, x2y_1, x_1y2 }, { x0y0, x1y0, x_2y0, x1y2, x_2y_1 },
 					{ x0y0, x_1y0, x2y0, x_1y_2, x2y1 }, { x0y0, x2y0, x_1y0, x2y_1, x_1y2 },
 					{ x0y0, x1y0, x_2y0, x1y2, x_2y_1 }, { x0y0, x_2y0, x1y0, x_2y1, x1y_2 } });
+	// J
 	public static final Block J = new Block((byte) 'J', new Point(3, -1),
 			new byte[][][] { { { 2, 0, 0 }, { 2, 2, 2 }, { 0, 0, 0 } }, { { 0, 2, 2 }, { 0, 2, 0 }, { 0, 2, 0 } },
 					{ { 0, 0, 0 }, { 2, 2, 2 }, { 0, 0, 2 } }, { { 0, 2, 0 }, { 0, 2, 0 }, { 2, 2, 0 } } },
 			DEFAULT_WALL);
+	// L
 	public static final Block L = new Block((byte) 'L', new Point(3, -1),
 			new byte[][][] { { { 0, 0, 3 }, { 3, 3, 3 }, { 0, 0, 0 } }, { { 0, 3, 0 }, { 0, 3, 0 }, { 0, 3, 3 } },
 					{ { 0, 0, 0 }, { 3, 3, 3 }, { 3, 0, 0 } }, { { 3, 3, 0 }, { 0, 3, 0 }, { 0, 3, 0 } } },
 			DEFAULT_WALL);
+	// O
 	public static final Block O = new Block((byte) 'O', new Point(4, -1), new byte[][][] { { { 4, 4 }, { 4, 4 } },
 			{ { 4, 4 }, { 4, 4 } }, { { 4, 4 }, { 4, 4 } }, { { 4, 4 }, { 4, 4 } } }, null);
+	// S
 	public static final Block S = new Block((byte) 'S', new Point(3, -1),
 			new byte[][][] { { { 0, 5, 5 }, { 5, 5, 0 }, { 0, 0, 0 } }, { { 0, 5, 0 }, { 0, 5, 5 }, { 0, 0, 5 } },
 					{ { 0, 0, 0 }, { 0, 5, 5 }, { 5, 5, 0 } }, { { 5, 0, 0 }, { 5, 5, 0 }, { 0, 5, 0 } } },
 			DEFAULT_WALL);
+	// T
 	public static final Block T = new Block((byte) 'T', new Point(3, -1),
 			new byte[][][] { { { 0, 6, 0 }, { 6, 6, 6 }, { 0, 0, 0 } }, { { 0, 6, 0 }, { 0, 6, 6 }, { 0, 6, 0 } },
 					{ { 0, 0, 0 }, { 6, 6, 6 }, { 0, 6, 0 } }, { { 0, 6, 0 }, { 6, 6, 0 }, { 0, 6, 0 } } },
 			DEFAULT_WALL);
+	// Z
 	public static final Block Z = new Block((byte) 'Z', new Point(3, -1),
 			new byte[][][] { { { 7, 7, 0 }, { 0, 7, 7 }, { 0, 0, 0 } }, { { 0, 0, 7 }, { 0, 7, 7 }, { 0, 7, 0 } },
 					{ { 0, 0, 0 }, { 7, 7, 0 }, { 0, 7, 7 } }, { { 0, 7, 0 }, { 7, 7, 0 }, { 7, 0, 0 } } },
 			DEFAULT_WALL);
 
+	// bag
 	public static final List<Block> set = Arrays.asList(I, J, L, O, S, T, Z);
 
-	/**
-	 * name
-	 */
+	// name
 	byte n;
-	/**
-	 * start location
-	 */
+	// start location
 	Point l;
-	/**
-	 * shape
-	 */
+	// shape
 	byte[][][] s;
-	/**
-	 * rotation
-	 */
+	// rotation
 	byte r = 0;
-	/**
-	 * wall kick test
-	 */
+	// wall kick test
 	Point[][] w;
 
 	Block(byte n, Point l, byte[][][] s, Point[][] w) {
