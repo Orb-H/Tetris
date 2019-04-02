@@ -5,6 +5,8 @@
 ## Features
    1. SRS (Super Rotation System)
    2. Modern scoring system (T-spin, back to back)
+   3. Realistic block
+   4. Background music and sound FXs
 
 ## How to play
    - <kbd>←</kbd> : Move block to the left
