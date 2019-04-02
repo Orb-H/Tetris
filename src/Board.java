@@ -7,7 +7,6 @@ import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,6 +16,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -71,6 +74,8 @@ public class Board extends JPanel {
 
 	public final ImageIcon blocks[] = new ImageIcon[16];
 	public final HashMap<Character, ImageIcon> entire = new HashMap<>();
+
+	public File sMove, sRotate, sDrop, sLine, sTetris, sBack;
 
 	public Board() {
 		setLayout(new BorderLayout());
@@ -239,7 +244,15 @@ public class Board extends JPanel {
 			entire.put('S', new ImageIcon(ImageIO.read(new File("Sn.png"))));
 			entire.put('T', new ImageIcon(ImageIO.read(new File("Tn.png"))));
 			entire.put('Z', new ImageIcon(ImageIO.read(new File("Zn.png"))));
-		} catch (IOException e) {
+
+			sMove = new File("move.wav");
+			sRotate = new File("rotate.wav");
+			sDrop = new File("drop.wav");
+			sLine = new File("line.wav");
+			sTetris = new File("tetris.wav");
+			sBack = new File("typea.wav");
+		} catch (Exception e) {
+			e.printStackTrace();
 			System.exit(0);
 		}
 	}
@@ -248,6 +261,7 @@ public class Board extends JPanel {
 		next.addAll(getShuffled());
 		next.addAll(getShuffled());
 		nextBlock();
+		playSoundLoop(sBack);
 
 		t = new Timer();
 		t.schedule(tt = new TimerTask() {
@@ -282,6 +296,7 @@ public class Board extends JPanel {
 			if (!(land = checkLand())) {
 				current.l.translate(0, 1);
 				score += 1;
+				playSound(sMove);
 				updateScore();
 				render();
 				framecount = 0;
@@ -348,6 +363,7 @@ public class Board extends JPanel {
 			for (int j = 0; j < current.s[0][0].length; j++)
 				if (current.s[current.r][i][j] != 0)
 					board[current.l.y + i][current.l.x + j] += current.s[current.r][i][j];
+		playSound(sDrop);
 		nextBlock();
 	}
 
@@ -387,6 +403,31 @@ public class Board extends JPanel {
 			break;
 		default:
 			current.l = new Point(3, -2);
+		}
+	}
+
+	public void playSoundLoop(File s) {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(s);
+			Clip c = AudioSystem.getClip();
+			c.open(ais);
+			c.loop(Clip.LOOP_CONTINUOUSLY);
+			c.start();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void playSound(File s) {
+		try {
+			AudioInputStream ais = AudioSystem.getAudioInputStream(s);
+			Clip c = AudioSystem.getClip();
+			c.open(ais);
+			c.start();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -480,7 +521,10 @@ public class Board extends JPanel {
 		updateScore();
 		if (count > 0) {
 			combo++;
-			Toolkit.getDefaultToolkit().beep();
+			if (count == 4)
+				playSound(sTetris);
+			else
+				playSound(sLine);
 		} else
 			combo = 0;
 		while (count > 0) {
@@ -534,6 +578,7 @@ public class Board extends JPanel {
 		}
 		if (available) {
 			current.l.translate(-1, 0);
+			playSound(sMove);
 			render();
 		}
 	}
@@ -561,6 +606,7 @@ public class Board extends JPanel {
 		}
 		if (available) {
 			current.l.translate(1, 0);
+			playSound(sMove);
 			render();
 		}
 	}
@@ -619,6 +665,7 @@ public class Board extends JPanel {
 				if (!land)
 					framecount = 1;
 			}
+			playSound(sRotate);
 			render();
 		}
 	}
@@ -677,6 +724,7 @@ public class Board extends JPanel {
 				if (!land)
 					framecount = 1;
 			}
+			playSound(sRotate);
 			render();
 		}
 	}
@@ -712,6 +760,7 @@ public class Board extends JPanel {
 		current.l.translate(0, y);
 		land();
 		score += 2 * y;
+		playSound(sDrop);
 		render();
 
 		framecount = 1;
