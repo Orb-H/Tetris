@@ -6,14 +6,19 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -64,6 +69,9 @@ public class Board extends JPanel {
 
 	KeyListener l;
 
+	public final ImageIcon blocks[] = new ImageIcon[16];
+	public final HashMap<Character, ImageIcon> entire = new HashMap<>();
+
 	public Board() {
 		setLayout(new BorderLayout());
 		setBackground(Color.BLACK);
@@ -80,15 +88,12 @@ public class Board extends JPanel {
 		c.setVisible(false);
 		add(c);
 
-		h = new JLabel("<html>Hold<br></html>", SwingConstants.CENTER);
-		h.setOpaque(true);
+		h = new JLabel();
 		h.setLocation(0, 0);
 		h.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		h.setSize(nextcell);
 		h.setPreferredSize(nextcell);
 		h.setBackground(Color.BLACK);
-		h.setForeground(Color.WHITE);
-		h.setFont(new Font("NanumBarunGothic", Font.PLAIN, 20));
 		add(h);
 
 		s = new JLabel("", SwingConstants.CENTER);
@@ -104,16 +109,13 @@ public class Board extends JPanel {
 
 		n = new JLabel[5];
 		for (int i = 0; i < 5; i++) {
-			n[i] = new JLabel(toStart[i], SwingConstants.CENTER);
+			n[i] = new JLabel();
 			n[i].setOpaque(true);
 			n[i].setLocation(260, 50 * i);
 			n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 			n[i].setSize(nextcell);
 			n[i].setPreferredSize(nextcell);
-			n[i].setEnabled(false);
 			n[i].setBackground(Color.BLACK);
-			n[i].setForeground(Color.WHITE);
-			n[i].setFont(new Font("NanumBarunGothic", Font.PLAIN, 20));
 			add(n[i]);
 		}
 
@@ -127,7 +129,7 @@ public class Board extends JPanel {
 				display[j][i].setOpaque(true);
 				display[j][i].setBackground(Color.BLACK);
 				display[j][i].setLocation(60 + 20 * i, 20 * j);
-				display[j][i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+				// display[j][i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 				display[j][i].setSize(cell);
 				display[j][i].setPreferredSize(cell);
 			}
@@ -210,6 +212,36 @@ public class Board extends JPanel {
 			}
 
 		});
+
+		try {
+			blocks[0] = null;
+			blocks[1] = new ImageIcon(ImageIO.read(new File("I.png")));
+			blocks[2] = new ImageIcon(ImageIO.read(new File("J.png")));
+			blocks[3] = new ImageIcon(ImageIO.read(new File("L.png")));
+			blocks[4] = new ImageIcon(ImageIO.read(new File("O.png")));
+			blocks[5] = new ImageIcon(ImageIO.read(new File("S.png")));
+			blocks[6] = new ImageIcon(ImageIO.read(new File("T.png")));
+			blocks[7] = new ImageIcon(ImageIO.read(new File("Z.png")));
+			blocks[8] = null;
+			blocks[9] = new ImageIcon(ImageIO.read(new File("Ib.png")));
+			blocks[10] = new ImageIcon(ImageIO.read(new File("Jb.png")));
+			blocks[11] = new ImageIcon(ImageIO.read(new File("Lb.png")));
+			blocks[12] = new ImageIcon(ImageIO.read(new File("Ob.png")));
+			blocks[13] = new ImageIcon(ImageIO.read(new File("Sb.png")));
+			blocks[14] = new ImageIcon(ImageIO.read(new File("Tb.png")));
+			blocks[15] = new ImageIcon(ImageIO.read(new File("Zb.png")));
+
+			entire.put('B', new ImageIcon(ImageIO.read(new File("Bn.png"))));
+			entire.put('I', new ImageIcon(ImageIO.read(new File("In.png"))));
+			entire.put('J', new ImageIcon(ImageIO.read(new File("Jn.png"))));
+			entire.put('L', new ImageIcon(ImageIO.read(new File("Ln.png"))));
+			entire.put('O', new ImageIcon(ImageIO.read(new File("On.png"))));
+			entire.put('S', new ImageIcon(ImageIO.read(new File("Sn.png"))));
+			entire.put('T', new ImageIcon(ImageIO.read(new File("Tn.png"))));
+			entire.put('Z', new ImageIcon(ImageIO.read(new File("Zn.png"))));
+		} catch (IOException e) {
+			System.exit(0);
+		}
 	}
 
 	public void start() {
@@ -346,7 +378,7 @@ public class Board extends JPanel {
 		if (next.size() < 7)
 			next.addAll(getShuffled());
 		for (int i = 0; i < 5; i++) {
-			n[i].setText((char) next.get(i).n + "");
+			n[i].setIcon(entire.get((char) next.get(i).n));
 		}
 
 		switch (current.n) {
@@ -721,53 +753,7 @@ public class Board extends JPanel {
 		}
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 20; j++) {
-				switch (board[j][i]) {
-				case 0:
-					display[j][i].setBackground(Color.BLACK);
-					break;
-				case 1:
-					display[j][i].setBackground(Color.CYAN);
-					break;
-				case 2:
-					display[j][i].setBackground(Color.BLUE);
-					break;
-				case 3:
-					display[j][i].setBackground(Color.ORANGE);
-					break;
-				case 4:
-					display[j][i].setBackground(Color.YELLOW);
-					break;
-				case 5:
-					display[j][i].setBackground(Color.GREEN);
-					break;
-				case 6:
-					display[j][i].setBackground(Color.MAGENTA.darker());
-					break;
-				case 7:
-					display[j][i].setBackground(Color.RED);
-					break;
-				case 9:
-					display[j][i].setBackground(Color.CYAN.darker());
-					break;
-				case 10:
-					display[j][i].setBackground(Color.BLUE.darker());
-					break;
-				case 11:
-					display[j][i].setBackground(Color.ORANGE.darker());
-					break;
-				case 12:
-					display[j][i].setBackground(Color.YELLOW.darker());
-					break;
-				case 13:
-					display[j][i].setBackground(Color.GREEN.darker());
-					break;
-				case 14:
-					display[j][i].setBackground(Color.MAGENTA.darker().darker());
-					break;
-				case 15:
-					display[j][i].setBackground(Color.RED.darker());
-					break;
-				}
+				display[j][i].setIcon(blocks[board[j][i]]);
 			}
 		}
 		setBackground(Color.BLACK);
@@ -795,7 +781,7 @@ public class Board extends JPanel {
 	}
 
 	public void updateHold() {
-		h.setText("<html><body><div align=center>Hold<br>" + (char) hold.n + "</div></body></html>");
+		h.setIcon(entire.get((char) hold.n));
 	}
 
 	public void updateScore() {
