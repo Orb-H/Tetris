@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -19,7 +18,6 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -54,6 +52,9 @@ public class Board extends JPanel {
 	boolean isTspinMini = false;
 	boolean btb = false;
 
+	int level = 0;
+	int line = 0;
+	int denormLine = 0;
 	int score = 0;
 	int combo = 0;
 	int blockcount = 0;
@@ -62,13 +63,13 @@ public class Board extends JPanel {
 	int framecount = 0;
 	boolean start = false;
 	boolean pause = false;
-	boolean shadow = false;
+	boolean shadow = true;
 
 	Timer t;
 	TimerTask tt;
 
 	public final int msPerFrame = 20;
-	public final int framePerTick = 25;
+	public int framePerTick = 25;
 
 	KeyListener l;
 
@@ -362,13 +363,16 @@ public class Board extends JPanel {
 		for (int i = 0; i < current.s[0].length; i++)
 			for (int j = 0; j < current.s[0][0].length; j++)
 				if (current.s[current.r][i][j] != 0)
-					board[current.l.y + i][current.l.x + j] += current.s[current.r][i][j];
+					try {
+						board[current.l.y + i][current.l.x + j] += current.s[current.r][i][j];
+					} catch (Exception e) {
+					}
 		playSound(sDrop);
 		nextBlock();
 	}
 
 	public void tick() {
-		land = checkLand();
+		boolean land = checkLand();
 		if (!land) {
 			current.l.translate(0, 1);
 			if (isSoft) {
@@ -376,7 +380,9 @@ public class Board extends JPanel {
 				updateScore();
 			}
 			isTspin = false;
-		}
+		} else if (this.land != land)
+			framecount = 1;
+		this.land = land;
 		render();
 	}
 
@@ -521,9 +527,13 @@ public class Board extends JPanel {
 		updateScore();
 		if (count > 0) {
 			combo++;
-			if (count == 4)
+			line += count;
+			denormLine += 2 * count - 1;
+			checkLevel();
+			if (count == 4) {
 				playSound(sTetris);
-			else
+				denormLine += 1;
+			} else
 				playSound(sLine);
 		} else
 			combo = 0;
@@ -531,6 +541,14 @@ public class Board extends JPanel {
 			board[count] = new byte[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 			count--;
 		}
+	}
+
+	public void checkLevel() {
+		if (denormLine > (level + 2) * (level + 1) / 2) {
+			level++;
+			framePerTick = framePerTick > 2 ? framePerTick - 1 : 2;
+		}
+		System.out.println(denormLine + " " + level + " " + framePerTick);// FIXME
 	}
 
 	public void hold() {
