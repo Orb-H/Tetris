@@ -20,3 +20,4 @@
    - <kbd>Esc</kbd> : Pause/Resume
    - <kbd>Enter</kbd> : Start
    - <kbd>S</kbd> : Toggle shadow
+   - <kbd>M</kbd> : Mute/Unmute background music
