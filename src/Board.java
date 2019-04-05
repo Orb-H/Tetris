@@ -20,7 +20,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.BooleanControl.Type;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.Control;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -81,6 +80,8 @@ public class Board extends JPanel {
 
 	public File sMove, sRotate, sDrop, sLine, sTetris, sBack;
 	public Clip cBack;
+
+	public final String fPrefix = "resource/";
 
 	public Board() {
 		setLayout(new BorderLayout());
@@ -228,37 +229,36 @@ public class Board extends JPanel {
 
 		try {
 			blocks[0] = null;
-			blocks[1] = new ImageIcon(ImageIO.read(new File("I.png")));
-			blocks[2] = new ImageIcon(ImageIO.read(new File("J.png")));
-			blocks[3] = new ImageIcon(ImageIO.read(new File("L.png")));
-			blocks[4] = new ImageIcon(ImageIO.read(new File("O.png")));
-			blocks[5] = new ImageIcon(ImageIO.read(new File("S.png")));
-			blocks[6] = new ImageIcon(ImageIO.read(new File("T.png")));
-			blocks[7] = new ImageIcon(ImageIO.read(new File("Z.png")));
+			blocks[1] = new ImageIcon(ImageIO.read(new File(fPrefix + "I.png")));
+			blocks[2] = new ImageIcon(ImageIO.read(new File(fPrefix + "J.png")));
+			blocks[3] = new ImageIcon(ImageIO.read(new File(fPrefix + "L.png")));
+			blocks[4] = new ImageIcon(ImageIO.read(new File(fPrefix + "O.png")));
+			blocks[5] = new ImageIcon(ImageIO.read(new File(fPrefix + "S.png")));
+			blocks[6] = new ImageIcon(ImageIO.read(new File(fPrefix + "T.png")));
+			blocks[7] = new ImageIcon(ImageIO.read(new File(fPrefix + "Z.png")));
 			blocks[8] = null;
-			blocks[9] = new ImageIcon(ImageIO.read(new File("Ib.png")));
-			blocks[10] = new ImageIcon(ImageIO.read(new File("Jb.png")));
-			blocks[11] = new ImageIcon(ImageIO.read(new File("Lb.png")));
-			blocks[12] = new ImageIcon(ImageIO.read(new File("Ob.png")));
-			blocks[13] = new ImageIcon(ImageIO.read(new File("Sb.png")));
-			blocks[14] = new ImageIcon(ImageIO.read(new File("Tb.png")));
-			blocks[15] = new ImageIcon(ImageIO.read(new File("Zb.png")));
+			blocks[9] = new ImageIcon(ImageIO.read(new File(fPrefix + "Ib.png")));
+			blocks[10] = new ImageIcon(ImageIO.read(new File(fPrefix + "Jb.png")));
+			blocks[11] = new ImageIcon(ImageIO.read(new File(fPrefix + "Lb.png")));
+			blocks[12] = new ImageIcon(ImageIO.read(new File(fPrefix + "Ob.png")));
+			blocks[13] = new ImageIcon(ImageIO.read(new File(fPrefix + "Sb.png")));
+			blocks[14] = new ImageIcon(ImageIO.read(new File(fPrefix + "Tb.png")));
+			blocks[15] = new ImageIcon(ImageIO.read(new File(fPrefix + "Zb.png")));
 
-			entire.put('B', new ImageIcon(ImageIO.read(new File("Bn.png"))));
-			entire.put('I', new ImageIcon(ImageIO.read(new File("In.png"))));
-			entire.put('J', new ImageIcon(ImageIO.read(new File("Jn.png"))));
-			entire.put('L', new ImageIcon(ImageIO.read(new File("Ln.png"))));
-			entire.put('O', new ImageIcon(ImageIO.read(new File("On.png"))));
-			entire.put('S', new ImageIcon(ImageIO.read(new File("Sn.png"))));
-			entire.put('T', new ImageIcon(ImageIO.read(new File("Tn.png"))));
-			entire.put('Z', new ImageIcon(ImageIO.read(new File("Zn.png"))));
+			entire.put('I', new ImageIcon(ImageIO.read(new File(fPrefix + "In.png"))));
+			entire.put('J', new ImageIcon(ImageIO.read(new File(fPrefix + "Jn.png"))));
+			entire.put('L', new ImageIcon(ImageIO.read(new File(fPrefix + "Ln.png"))));
+			entire.put('O', new ImageIcon(ImageIO.read(new File(fPrefix + "On.png"))));
+			entire.put('S', new ImageIcon(ImageIO.read(new File(fPrefix + "Sn.png"))));
+			entire.put('T', new ImageIcon(ImageIO.read(new File(fPrefix + "Tn.png"))));
+			entire.put('Z', new ImageIcon(ImageIO.read(new File(fPrefix + "Zn.png"))));
 
-			sMove = new File("move.wav");
-			sRotate = new File("rotate.wav");
-			sDrop = new File("drop.wav");
-			sLine = new File("line.wav");
-			sTetris = new File("tetris.wav");
-			sBack = new File("typea.wav");
+			sMove = new File(fPrefix + "move.wav");
+			sRotate = new File(fPrefix + "rotate.wav");
+			sDrop = new File(fPrefix + "drop.wav");
+			sLine = new File(fPrefix + "line.wav");
+			sTetris = new File(fPrefix + "tetris.wav");
+			sBack = new File(fPrefix + "typea.wav");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
