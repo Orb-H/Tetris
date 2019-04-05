@@ -17,7 +17,10 @@ import java.util.TimerTask;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.BooleanControl;
+import javax.sound.sampled.BooleanControl.Type;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.Control;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -77,6 +80,7 @@ public class Board extends JPanel {
 	public final HashMap<Character, ImageIcon> entire = new HashMap<>();
 
 	public File sMove, sRotate, sDrop, sLine, sTetris, sBack;
+	public Clip cBack;
 
 	public Board() {
 		setLayout(new BorderLayout());
@@ -199,6 +203,9 @@ public class Board extends JPanel {
 						case KeyEvent.VK_S:
 							shadow = !shadow;
 							break;
+						case KeyEvent.VK_M:
+							muteSoundBack();
+							break;
 						}
 					}
 				}
@@ -262,7 +269,7 @@ public class Board extends JPanel {
 		next.addAll(getShuffled());
 		next.addAll(getShuffled());
 		nextBlock();
-		playSoundLoop(sBack);
+		playSoundBack();
 
 		t = new Timer();
 		t.schedule(tt = new TimerTask() {
@@ -412,16 +419,23 @@ public class Board extends JPanel {
 		}
 	}
 
-	public void playSoundLoop(File s) {
+	public void playSoundBack() {
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(s);
-			Clip c = AudioSystem.getClip();
-			c.open(ais);
-			c.loop(Clip.LOOP_CONTINUOUSLY);
-			c.start();
+			AudioInputStream ais = AudioSystem.getAudioInputStream(sBack);
+			cBack = AudioSystem.getClip();
+			cBack.open(ais);
+			cBack.loop(Clip.LOOP_CONTINUOUSLY);
+			cBack.start();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+
+	public void muteSoundBack() {
+		if (cBack.isActive()) {
+			BooleanControl c = (BooleanControl) cBack.getControl(Type.MUTE);
+			c.setValue(!c.getValue());
 		}
 	}
 
