@@ -132,7 +132,7 @@ public class Board extends JPanel {
 			add(n[i]);
 		}
 
-		board = new byte[20][10];
+		board = new byte[23][10];
 		display = new JLabel[20][10];
 
 		for (int i = 0; i < 10; i++) {
@@ -329,8 +329,6 @@ public class Board extends JPanel {
 		boolean landtemp = false;
 		for (int i = 0; i < current.s[0].length; i++) {
 			for (int j = 0; j < current.s[0][0].length; j++) {
-				if (landtemp)
-					break;
 				if (current.s[current.r][i][j] != 0) {
 					if (current.l.y + i == 19) {
 						landtemp = true;
@@ -356,8 +354,6 @@ public class Board extends JPanel {
 		boolean landtemp = false;
 		for (int i = 0; i < b.s[0].length; i++) {
 			for (int j = 0; j < b.s[0][0].length; j++) {
-				if (landtemp)
-					break;
 				if (b.s[r][i][j] != 0) {
 					if (y + i == 19) {
 						landtemp = true;
@@ -773,14 +769,12 @@ public class Board extends JPanel {
 		}
 	}
 
-	public void harddrop() {
+	public synchronized void harddrop() {
 		boolean land = false;
 		int y = 0;
 		while (!land) {
 			for (int i = 0; i < current.s[0].length; i++) {
 				for (int j = 0; j < current.s[0][0].length; j++) {
-					if (land)
-						break;
 					if (current.s[current.r][i][j] != 0) {
 						if (current.l.y + i + y == 19) {
 							land = true;
