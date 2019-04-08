@@ -34,6 +34,7 @@ public class Board extends JPanel {
 	JLabel h;// hold
 	JLabel[] n;// next
 	JLabel s;// score
+	JLabel v;// level
 	JLabel b;// board border
 	JLabel c;// cover
 	JLabel[][] display;
@@ -71,7 +72,7 @@ public class Board extends JPanel {
 	TimerTask tt;
 
 	public final int msPerFrame = 20;
-	public int framePerTick = 3;// 25
+	public int framePerTick = 25;
 
 	KeyListener l;
 
@@ -109,7 +110,7 @@ public class Board extends JPanel {
 		h.setBackground(Color.BLACK);
 		add(h);
 
-		s = new JLabel("", SwingConstants.CENTER);
+		s = new JLabel("<html>Score<br>0</html>", SwingConstants.CENTER);
 		s.setOpaque(true);
 		s.setLocation(260, 350);
 		s.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
@@ -119,6 +120,17 @@ public class Board extends JPanel {
 		s.setForeground(Color.WHITE);
 		s.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
 		add(s);
+
+		v = new JLabel("<html>Level<br>0</html>", SwingConstants.CENTER);
+		v.setOpaque(true);
+		v.setLocation(260, 300);
+		v.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		v.setSize(nextcell);
+		v.setPreferredSize(nextcell);
+		v.setBackground(Color.BLACK);
+		v.setForeground(Color.WHITE);
+		v.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
+		add(v);
 
 		n = new JLabel[5];
 		for (int i = 0; i < 5; i++) {
@@ -132,7 +144,7 @@ public class Board extends JPanel {
 			add(n[i]);
 		}
 
-		board = new byte[23][10];
+		board = new byte[20][10];
 		display = new JLabel[20][10];
 
 		for (int i = 0; i < 10; i++) {
@@ -286,12 +298,14 @@ public class Board extends JPanel {
 	}
 
 	public void restart() {
+		cBack.close();
+
 		m.b = new Board(m);
 		m.setContentPane(m.b);
 		m.b.requestFocus();
 	}
 
-	public void pause() {
+	public synchronized void pause() {
 		if (pause) {
 			t = new Timer();
 			t.schedule(tt = new TimerTask() {
@@ -307,7 +321,7 @@ public class Board extends JPanel {
 		pause = !pause;
 	}
 
-	public void frame() {
+	public synchronized void frame() {
 		if (land && framecount % (1000 / msPerFrame) == 0) {
 			land();
 		} else if (framecount % framePerTick == 0)
@@ -374,7 +388,7 @@ public class Board extends JPanel {
 		return landtemp;
 	}
 
-	public void land() {
+	public synchronized void land() {
 		for (int i = 0; i < current.s[0].length; i++)
 			for (int j = 0; j < current.s[0][0].length; j++)
 				if (current.s[current.r][i][j] != 0)
@@ -386,7 +400,7 @@ public class Board extends JPanel {
 		nextBlock();
 	}
 
-	public void tick() {
+	public synchronized void tick() {
 		boolean land = checkLand();
 		if (!land) {
 			current.l.translate(0, 1);
@@ -569,11 +583,12 @@ public class Board extends JPanel {
 		if (denormLine > (level + 2) * (level + 1) / 2) {
 			level++;
 			framePerTick = framePerTick > 2 ? framePerTick - 1 : 2;
+			updateLevel();
 		}
 		System.out.println(denormLine + " " + level + " " + framePerTick);// FIXME
 	}
 
-	public void hold() {
+	public synchronized void hold() {
 		if (!canHold)
 			return;
 		if (hold == null) {
@@ -595,7 +610,7 @@ public class Board extends JPanel {
 		canHold = false;
 	}
 
-	public void moveLeft() {
+	public synchronized void moveLeft() {
 		boolean available = true;
 		for (int i = 0; i < current.s[0].length; i++) {
 			for (int j = 0; j < current.s[0][0].length; j++) {
@@ -623,7 +638,7 @@ public class Board extends JPanel {
 		}
 	}
 
-	public void moveRight() {
+	public synchronized void moveRight() {
 		boolean available = true;
 		for (int i = 0; i < current.s[0].length; i++) {
 			for (int j = 0; j < current.s[0][0].length; j++) {
@@ -651,7 +666,7 @@ public class Board extends JPanel {
 		}
 	}
 
-	public void rotateLeft() {
+	public synchronized void rotateLeft() {
 		if (current.n == 'O')
 			return;
 		boolean available = true;
@@ -710,7 +725,7 @@ public class Board extends JPanel {
 		}
 	}
 
-	public void rotateRight() {
+	public synchronized void rotateRight() {
 		if (current.n == 'O')
 			return;
 		boolean available = true;
@@ -873,6 +888,10 @@ public class Board extends JPanel {
 
 	public void updateScore() {
 		s.setText("<html>Score<br>" + score + "</html>");
+	}
+
+	public void updateLevel() {
+		v.setText("<html>Level<br>" + level + "</html>");
 	}
 
 }
