@@ -28,6 +28,8 @@ import javax.swing.SwingConstants;
 
 public class Board extends JPanel {
 
+	Main m;
+
 	byte[][] board;
 	JLabel h;// hold
 	JLabel[] n;// next
@@ -45,8 +47,6 @@ public class Board extends JPanel {
 	Block current;
 	Block hold = null;
 	boolean canHold = true;
-
-	String[] toStart = { "Press", "Enter", "to", "start", "game" };
 
 	boolean isSoft = false;
 	boolean land = false;
@@ -71,7 +71,7 @@ public class Board extends JPanel {
 	TimerTask tt;
 
 	public final int msPerFrame = 20;
-	public int framePerTick = 25;
+	public int framePerTick = 3;// 25
 
 	KeyListener l;
 
@@ -83,7 +83,9 @@ public class Board extends JPanel {
 
 	public final String fPrefix = "resource/";
 
-	public Board() {
+	public Board(Main m) {
+		this.m = m;
+
 		setLayout(new BorderLayout());
 		setBackground(Color.BLACK);
 
@@ -208,6 +210,10 @@ public class Board extends JPanel {
 							muteSoundBack();
 							break;
 						}
+					} else {
+						if (e.getKeyCode() == KeyEvent.VK_R) {
+							restart();
+						}
 					}
 				}
 			}
@@ -277,6 +283,12 @@ public class Board extends JPanel {
 				frame();
 			}
 		}, 0, msPerFrame);
+	}
+
+	public void restart() {
+		m.b = new Board(m);
+		m.setContentPane(m.b);
+		m.b.requestFocus();
 	}
 
 	public void pause() {

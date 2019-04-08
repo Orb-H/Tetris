@@ -3,8 +3,10 @@ import javax.swing.SwingUtilities;
 
 public class Main extends JFrame {
 
+	Board b;
+
 	public Main() {
-		Board b = new Board();
+		b = new Board(this);
 		setContentPane(b);
 		setVisible(true);
 		setTitle("Tetris");

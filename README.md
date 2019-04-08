@@ -1,4 +1,4 @@
-# Simple Tetris Game
+﻿# Simple Tetris Game
 
 #### A quite well working Tetris.
 
@@ -21,3 +21,4 @@
    - <kbd>Enter</kbd> : Start
    - <kbd>S</kbd> : Toggle shadow
    - <kbd>M</kbd> : Mute/Unmute background music
+   - <kbd>R</kbd> : Restart game(only available when paused)
