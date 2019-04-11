@@ -85,8 +85,6 @@ public class Board extends JPanel {
 	public File sMove, sRotate, sDrop, sLine, sTetris, sBack;
 	public Clip cBack;
 
-	public final String fPrefix = "resource/";
-
 	public ImageIcon back;
 
 	public Board(Main m) {
@@ -103,13 +101,13 @@ public class Board extends JPanel {
 		c.setBackground(Color.DARK_GRAY);
 		c.setFont(new Font("NanumBarunGothic", Font.PLAIN, 25));
 		c.setForeground(Color.WHITE);
-		//c.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		// c.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		c.setVisible(false);
 		add(c);
 
 		h = new JLabel();
 		h.setLocation(37, 51);
-		//h.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		// h.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		h.setSize(nextcell);
 		h.setPreferredSize(nextcell);
 		h.setBackground(Color.BLACK);
@@ -118,10 +116,10 @@ public class Board extends JPanel {
 		s = new JLabel("<html>Score<br>0</html>", SwingConstants.CENTER);
 		s.setOpaque(false);
 		s.setLocation(303, 379);
-		//s.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		// s.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		s.setSize(nextcell);
 		s.setPreferredSize(nextcell);
-		//s.setBackground(Color.BLACK);
+		// s.setBackground(Color.BLACK);
 		s.setForeground(Color.WHITE);
 		s.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
 		add(s);
@@ -129,10 +127,10 @@ public class Board extends JPanel {
 		v = new JLabel("<html>Level<br>0</html>", SwingConstants.CENTER);
 		v.setOpaque(false);
 		v.setLocation(303, 329);
-		//v.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		// v.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		v.setSize(nextcell);
 		v.setPreferredSize(nextcell);
-		//v.setBackground(Color.BLACK);
+		// v.setBackground(Color.BLACK);
 		v.setForeground(Color.WHITE);
 		v.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
 		add(v);
@@ -142,10 +140,10 @@ public class Board extends JPanel {
 			n[i] = new JLabel();
 			n[i].setOpaque(false);
 			n[i].setLocation(303, 51 + 50 * i);
-			//n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			// n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 			n[i].setSize(nextcell);
 			n[i].setPreferredSize(nextcell);
-			//n[i].setBackground(Color.BLACK);
+			// n[i].setBackground(Color.BLACK);
 			add(n[i]);
 		}
 
@@ -157,7 +155,7 @@ public class Board extends JPanel {
 				display[j][i] = new JLabel();
 				add(display[j][i]);
 				display[j][i].setOpaque(false);
-				//display[j][i].setBackground(Color.BLACK);
+				// display[j][i].setBackground(Color.BLACK);
 				display[j][i].setLocation(100 + 20 * i, 40 + 20 * j);
 				// display[j][i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 				display[j][i].setSize(cell);
@@ -165,17 +163,15 @@ public class Board extends JPanel {
 			}
 		}
 
-		/*b = new JLabel();
-		b.setOpaque(true);
-		b.setLocation(99, 40);
-		b.setSize(boardcell);
-		b.setPreferredSize(boardcell);
-		b.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-		add(b);*/
+		/*
+		 * b = new JLabel(); b.setOpaque(true); b.setLocation(99, 40);
+		 * b.setSize(boardcell); b.setPreferredSize(boardcell);
+		 * b.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1)); add(b);
+		 */
 
 		full = new JLabel();
 		full.setOpaque(true);
-		full.setLocation(100, 40);
+		full.setLocation(0, 0);
 		full.setSize(size);
 		full.setPreferredSize(size);
 		add(full);
@@ -251,38 +247,38 @@ public class Board extends JPanel {
 
 		try {
 			blocks[0] = null;
-			blocks[1] = new ImageIcon(ImageIO.read(new File(fPrefix + "I.png")));
-			blocks[2] = new ImageIcon(ImageIO.read(new File(fPrefix + "J.png")));
-			blocks[3] = new ImageIcon(ImageIO.read(new File(fPrefix + "L.png")));
-			blocks[4] = new ImageIcon(ImageIO.read(new File(fPrefix + "O.png")));
-			blocks[5] = new ImageIcon(ImageIO.read(new File(fPrefix + "S.png")));
-			blocks[6] = new ImageIcon(ImageIO.read(new File(fPrefix + "T.png")));
-			blocks[7] = new ImageIcon(ImageIO.read(new File(fPrefix + "Z.png")));
+			blocks[1] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "I.png")));
+			blocks[2] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "J.png")));
+			blocks[3] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "L.png")));
+			blocks[4] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "O.png")));
+			blocks[5] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "S.png")));
+			blocks[6] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "T.png")));
+			blocks[7] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Z.png")));
 			blocks[8] = null;
-			blocks[9] = new ImageIcon(ImageIO.read(new File(fPrefix + "Ib.png")));
-			blocks[10] = new ImageIcon(ImageIO.read(new File(fPrefix + "Jb.png")));
-			blocks[11] = new ImageIcon(ImageIO.read(new File(fPrefix + "Lb.png")));
-			blocks[12] = new ImageIcon(ImageIO.read(new File(fPrefix + "Ob.png")));
-			blocks[13] = new ImageIcon(ImageIO.read(new File(fPrefix + "Sb.png")));
-			blocks[14] = new ImageIcon(ImageIO.read(new File(fPrefix + "Tb.png")));
-			blocks[15] = new ImageIcon(ImageIO.read(new File(fPrefix + "Zb.png")));
+			blocks[9] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Ib.png")));
+			blocks[10] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Jb.png")));
+			blocks[11] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Lb.png")));
+			blocks[12] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Ob.png")));
+			blocks[13] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Sb.png")));
+			blocks[14] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Tb.png")));
+			blocks[15] = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Zb.png")));
 
-			entire.put('I', new ImageIcon(ImageIO.read(new File(fPrefix + "In.png"))));
-			entire.put('J', new ImageIcon(ImageIO.read(new File(fPrefix + "Jn.png"))));
-			entire.put('L', new ImageIcon(ImageIO.read(new File(fPrefix + "Ln.png"))));
-			entire.put('O', new ImageIcon(ImageIO.read(new File(fPrefix + "On.png"))));
-			entire.put('S', new ImageIcon(ImageIO.read(new File(fPrefix + "Sn.png"))));
-			entire.put('T', new ImageIcon(ImageIO.read(new File(fPrefix + "Tn.png"))));
-			entire.put('Z', new ImageIcon(ImageIO.read(new File(fPrefix + "Zn.png"))));
+			entire.put('I', new ImageIcon(ImageIO.read(new File(Main.fPrefix + "In.png"))));
+			entire.put('J', new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Jn.png"))));
+			entire.put('L', new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Ln.png"))));
+			entire.put('O', new ImageIcon(ImageIO.read(new File(Main.fPrefix + "On.png"))));
+			entire.put('S', new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Sn.png"))));
+			entire.put('T', new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Tn.png"))));
+			entire.put('Z', new ImageIcon(ImageIO.read(new File(Main.fPrefix + "Zn.png"))));
 
-			sMove = new File(fPrefix + "move.wav");
-			sRotate = new File(fPrefix + "rotate.wav");
-			sDrop = new File(fPrefix + "drop.wav");
-			sLine = new File(fPrefix + "line.wav");
-			sTetris = new File(fPrefix + "tetris.wav");
-			sBack = new File(fPrefix + "typea.wav");
+			sMove = new File(Main.fPrefix + "move.wav");
+			sRotate = new File(Main.fPrefix + "rotate.wav");
+			sDrop = new File(Main.fPrefix + "drop.wav");
+			sLine = new File(Main.fPrefix + "line.wav");
+			sTetris = new File(Main.fPrefix + "tetris.wav");
+			sBack = new File(Main.fPrefix + "typea.wav");
 
-			back = new ImageIcon(ImageIO.read(new File(fPrefix + "back.png")));
+			back = new ImageIcon(ImageIO.read(new File(Main.fPrefix + "back.png")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);

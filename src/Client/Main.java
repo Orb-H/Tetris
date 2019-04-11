@@ -9,10 +9,15 @@ import javax.swing.SwingUtilities;
 public class Main extends JFrame {
 
 	Board b;
+	Title t;
+
+	public static final String fPrefix = "resource/";
 
 	public Main() {
-		b = new Board(this);
-		setContentPane(b);
+		// b = new Board(this);
+		// setContentPane(b);
+		t = new Title(this);
+		setContentPane(t);
 		setVisible(true);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,7 +27,7 @@ public class Main extends JFrame {
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((size.width - d.width) / 2, (size.height - d.height) / 2);
 
-		b.requestFocus();
+		// b.requestFocus();
 	}
 
 	public static void main(String[] args) {
