@@ -1,5 +1,8 @@
 package Client;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
@@ -13,8 +16,12 @@ public class Main extends JFrame {
 		setVisible(true);
 		setTitle("Tetris");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLocation(700, 300);
 		pack();
+
+		Dimension d = getSize();
+		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation((size.width - d.width) / 2, (size.height - d.height) / 2);
+
 		b.requestFocus();
 	}
 
