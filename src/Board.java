@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -39,7 +40,7 @@ public class Board extends JPanel {
 	JLabel c;// cover
 	JLabel[][] display;
 	JLabel full;
-	final Dimension size = new Dimension(320, 400);
+	final Dimension size = new Dimension(400, 480);
 	final Dimension cell = new Dimension(20, 20);
 	final Dimension nextcell = new Dimension(60, 50);
 	final Dimension boardcell = new Dimension(202, 400);
@@ -84,50 +85,52 @@ public class Board extends JPanel {
 
 	public final String fPrefix = "resource/";
 
+	public ImageIcon back;
+
 	public Board(Main m) {
 		this.m = m;
 
 		setLayout(new BorderLayout());
-		setBackground(Color.BLACK);
+		setOpaque(true);
 
 		c = new JLabel("Paused", SwingConstants.CENTER);
 		c.setOpaque(true);
-		c.setLocation(59, 0);
+		c.setLocation(99, 40);
 		c.setSize(boardcell);
 		c.setPreferredSize(boardcell);
 		c.setBackground(Color.DARK_GRAY);
 		c.setFont(new Font("NanumBarunGothic", Font.PLAIN, 25));
 		c.setForeground(Color.WHITE);
-		c.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		//c.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		c.setVisible(false);
 		add(c);
 
 		h = new JLabel();
-		h.setLocation(0, 0);
-		h.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		h.setLocation(37, 51);
+		//h.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		h.setSize(nextcell);
 		h.setPreferredSize(nextcell);
 		h.setBackground(Color.BLACK);
 		add(h);
 
 		s = new JLabel("<html>Score<br>0</html>", SwingConstants.CENTER);
-		s.setOpaque(true);
-		s.setLocation(260, 350);
-		s.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		s.setOpaque(false);
+		s.setLocation(303, 379);
+		//s.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		s.setSize(nextcell);
 		s.setPreferredSize(nextcell);
-		s.setBackground(Color.BLACK);
+		//s.setBackground(Color.BLACK);
 		s.setForeground(Color.WHITE);
 		s.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
 		add(s);
 
 		v = new JLabel("<html>Level<br>0</html>", SwingConstants.CENTER);
-		v.setOpaque(true);
-		v.setLocation(260, 300);
-		v.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		v.setOpaque(false);
+		v.setLocation(303, 329);
+		//v.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		v.setSize(nextcell);
 		v.setPreferredSize(nextcell);
-		v.setBackground(Color.BLACK);
+		//v.setBackground(Color.BLACK);
 		v.setForeground(Color.WHITE);
 		v.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
 		add(v);
@@ -135,12 +138,12 @@ public class Board extends JPanel {
 		n = new JLabel[5];
 		for (int i = 0; i < 5; i++) {
 			n[i] = new JLabel();
-			n[i].setOpaque(true);
-			n[i].setLocation(260, 50 * i);
-			n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+			n[i].setOpaque(false);
+			n[i].setLocation(303, 51 + 50 * i);
+			//n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 			n[i].setSize(nextcell);
 			n[i].setPreferredSize(nextcell);
-			n[i].setBackground(Color.BLACK);
+			//n[i].setBackground(Color.BLACK);
 			add(n[i]);
 		}
 
@@ -151,29 +154,28 @@ public class Board extends JPanel {
 			for (int j = 0; j < 20; j++) {
 				display[j][i] = new JLabel();
 				add(display[j][i]);
-				display[j][i].setOpaque(true);
-				display[j][i].setBackground(Color.BLACK);
-				display[j][i].setLocation(60 + 20 * i, 20 * j);
+				display[j][i].setOpaque(false);
+				//display[j][i].setBackground(Color.BLACK);
+				display[j][i].setLocation(100 + 20 * i, 40 + 20 * j);
 				// display[j][i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 				display[j][i].setSize(cell);
 				display[j][i].setPreferredSize(cell);
 			}
 		}
 
-		b = new JLabel();
+		/*b = new JLabel();
 		b.setOpaque(true);
-		b.setLocation(59, 0);
+		b.setLocation(99, 40);
 		b.setSize(boardcell);
 		b.setPreferredSize(boardcell);
 		b.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
-		add(b);
+		add(b);*/
 
 		full = new JLabel();
 		full.setOpaque(true);
-		full.setLocation(0, 0);
+		full.setLocation(100, 40);
 		full.setSize(size);
 		full.setPreferredSize(size);
-		full.setBackground(Color.BLACK);
 		add(full);
 
 		setSize(size);
@@ -277,10 +279,14 @@ public class Board extends JPanel {
 			sLine = new File(fPrefix + "line.wav");
 			sTetris = new File(fPrefix + "tetris.wav");
 			sBack = new File(fPrefix + "typea.wav");
+
+			back = new ImageIcon(ImageIO.read(new File(fPrefix + "back.png")));
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(0);
 		}
+
+		full.setIcon(back);
 	}
 
 	public void start() {
