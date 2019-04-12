@@ -87,6 +87,8 @@ public class Board extends JPanel {
 
 	public ImageIcon back;
 
+	public Font basic = new Font(Main.fPrefix + "NANUMBARUNGOTHIC.TTF", Font.PLAIN, 15);
+
 	public Board(Main m) {
 		this.m = m;
 
@@ -98,41 +100,34 @@ public class Board extends JPanel {
 		c.setLocation(99, 40);
 		c.setSize(boardcell);
 		c.setPreferredSize(boardcell);
-		c.setBackground(Color.DARK_GRAY);
-		c.setFont(new Font("NanumBarunGothic", Font.PLAIN, 25));
-		c.setForeground(Color.WHITE);
-		// c.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
+		c.setBackground(new Color(157, 231, 219));
+		c.setFont(basic.deriveFont(25.0f));
+		c.setForeground(Color.BLACK);
 		c.setVisible(false);
 		add(c);
 
 		h = new JLabel();
 		h.setLocation(37, 51);
-		// h.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		h.setSize(nextcell);
 		h.setPreferredSize(nextcell);
-		h.setBackground(Color.BLACK);
 		add(h);
 
 		s = new JLabel("<html>Score<br>0</html>", SwingConstants.CENTER);
 		s.setOpaque(false);
 		s.setLocation(303, 379);
-		// s.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		s.setSize(nextcell);
 		s.setPreferredSize(nextcell);
-		// s.setBackground(Color.BLACK);
-		s.setForeground(Color.WHITE);
-		s.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
+		s.setForeground(Color.BLACK);
+		s.setFont(basic);
 		add(s);
 
 		v = new JLabel("<html>Level<br>0</html>", SwingConstants.CENTER);
 		v.setOpaque(false);
 		v.setLocation(303, 329);
-		// v.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 		v.setSize(nextcell);
 		v.setPreferredSize(nextcell);
-		// v.setBackground(Color.BLACK);
-		v.setForeground(Color.WHITE);
-		v.setFont(new Font("NanumBarunGothic", Font.PLAIN, 15));
+		v.setForeground(Color.BLACK);
+		v.setFont(basic);
 		add(v);
 
 		n = new JLabel[5];
@@ -140,10 +135,8 @@ public class Board extends JPanel {
 			n[i] = new JLabel();
 			n[i].setOpaque(false);
 			n[i].setLocation(303, 51 + 50 * i);
-			// n[i].setBorder(BorderFactory.createLineBorder(Color.WHITE, 1));
 			n[i].setSize(nextcell);
 			n[i].setPreferredSize(nextcell);
-			// n[i].setBackground(Color.BLACK);
 			add(n[i]);
 		}
 
@@ -155,19 +148,11 @@ public class Board extends JPanel {
 				display[j][i] = new JLabel();
 				add(display[j][i]);
 				display[j][i].setOpaque(false);
-				// display[j][i].setBackground(Color.BLACK);
 				display[j][i].setLocation(100 + 20 * i, 40 + 20 * j);
-				// display[j][i].setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
 				display[j][i].setSize(cell);
 				display[j][i].setPreferredSize(cell);
 			}
 		}
-
-		/*
-		 * b = new JLabel(); b.setOpaque(true); b.setLocation(99, 40);
-		 * b.setSize(boardcell); b.setPreferredSize(boardcell);
-		 * b.setBorder(BorderFactory.createLineBorder(Color.WHITE, 1)); add(b);
-		 */
 
 		full = new JLabel();
 		full.setOpaque(true);

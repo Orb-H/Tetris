@@ -23,6 +23,7 @@ public class Title extends JPanel {
 	final Dimension size = new Dimension(400, 480);
 
 	Main m;
+	Title t;
 
 	KeyListener l;
 
@@ -32,6 +33,7 @@ public class Title extends JPanel {
 
 	public Title(Main m) {
 		this.m = m;
+		t = this;
 
 		setLayout(new BorderLayout());
 		setOpaque(true);
@@ -41,7 +43,12 @@ public class Title extends JPanel {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				// TODO Auto-generated method stub
-
+				switch (arg0.getKeyCode()) {
+				case KeyEvent.VK_ENTER:
+					m.loadBoard();
+					removeKeyListener(l);
+					break;
+				}
 			}
 
 			@Override
@@ -93,7 +100,8 @@ class FadeLabel extends JLabel {
 
 		t = new Timer(20, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				alpha = (Math.sin((System.currentTimeMillis() - startTime) / 4000.0 * Math.PI) + 1) / 2;
+				long elapsed = System.currentTimeMillis() - startTime;
+				alpha = Math.max(Math.min(Math.sin(elapsed / 4000.0 * Math.PI) + 0.5, 1), 0);
 
 				repaint();
 			}

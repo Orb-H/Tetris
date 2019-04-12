@@ -27,7 +27,16 @@ public class Main extends JFrame {
 		Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((size.width - d.width) / 2, (size.height - d.height) / 2);
 
+		t.requestFocus();
 		// b.requestFocus();
+	}
+
+	public void loadBoard() {
+		t = null;
+
+		b = new Board(this);
+		setContentPane(b);
+		b.requestFocus();
 	}
 
 	public static void main(String[] args) {
