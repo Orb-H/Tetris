@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,7 +22,6 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.BooleanControl;
 import javax.sound.sampled.BooleanControl.Type;
 import javax.sound.sampled.Clip;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -571,10 +569,9 @@ public class Board extends JPanel {
 	public void checkLevel() {
 		if (denormLine > (level + 2) * (level + 1) / 2) {
 			level++;
-			framePerTick = framePerTick > 2 ? framePerTick - 1 : 2;
+			framePerTick = framePerTick > 1 ? framePerTick - 1 : 1;
 			updateLevel();
 		}
-		System.out.println(denormLine + " " + level + " " + framePerTick);// FIXME
 	}
 
 	public synchronized void hold() {
